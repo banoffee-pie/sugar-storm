@@ -5,6 +5,7 @@ import {token} from './inputs';
 
 export const octokit = getOctokit(token);
 
+// gets the name of the branch, adding the fork as a remote if necessary
 export async function getBranch(): Promise<string> {
   try {
     // Use context info to get the head reference for source branch of PR
@@ -15,6 +16,7 @@ export async function getBranch(): Promise<string> {
         pull_number: context.issue.number,
       })
       .then((resp: {data: {head: {ref: string}}}): Promise<string> => {
+        console.log(resp);
         return Promise.resolve(resp.data.head.ref);
       });
   } catch (error) {
