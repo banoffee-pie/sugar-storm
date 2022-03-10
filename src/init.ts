@@ -53,7 +53,7 @@ export async function init(): Promise<void> {
   if (!isCommenterAuthorised()) {
     return;
   }
-
-  await ensureDependenciesResolved();
-  await installPipPackages();
+  core.info('This is a test to see if this is running the latest versoin');
+  // await ensureDependenciesResolved();
+  // await installPipPackages();
 }
