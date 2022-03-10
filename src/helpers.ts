@@ -16,7 +16,7 @@ export async function getBranch(): Promise<string> {
         pull_number: context.issue.number,
       })
       .then((resp: {data: {head: {ref: string}}}): Promise<string> => {
-        console.log(resp);
+        core.debug(resp.toString());
         return Promise.resolve(resp.data.head.ref);
       });
   } catch (error) {
