@@ -19,7 +19,8 @@ async function run(): Promise<void> {
   }
 
   try {
-    await checkoutBranch(await getBranch());
+    const branch = await getBranch();
+    await checkoutBranch(branch);
     await handler.handle(command);
   } catch (e) {
     core.setFailed(`An unexpected error occurred:\n ${e.message}`);
