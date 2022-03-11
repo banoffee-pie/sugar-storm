@@ -3,6 +3,7 @@ import {exec} from '@actions/exec';
 import {requiredBinaries} from './constants';
 import * as core from '@actions/core';
 import {isCommenterAuthorised} from "./authorisation";
+import { AuthorisationError } from './errors';
 
 export async function hasBin(name: string): Promise<boolean> {
   return exec('which', [name]).then((exitCode: number) => {
@@ -51,9 +52,8 @@ function installPipPackages() {
 
 export async function init(): Promise<void> {
   if (!isCommenterAuthorised()) {
-    return;
+    return Promise.reject(new AuthorisationError("This user is not authorised to execute commands."));
   }
-  core.error('This is a test to see if this is running the latest versoin');
-  // await ensureDependenciesResolved();
-  // await installPipPackages();
+  await ensureDependenciesResolved();
+  await installPipPackages();
 }

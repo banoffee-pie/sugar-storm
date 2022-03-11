@@ -4,6 +4,7 @@ import {Handler, Handlers} from './handlers/handlers';
 import {checkoutBranch} from './git-commands';
 import {getCommand, getBranch} from './helpers';
 import {init} from './init';
+import { AuthorisationError } from './errors';
 
 async function run(): Promise<void> {
   const command: string = getCommand();
@@ -27,4 +28,10 @@ async function run(): Promise<void> {
   }
 }
 
-init().then(run);
+init().then(run).catch(reason => {
+  if(reason instanceof AuthorisationError) {
+    core.warning(reason.message);
+    return;
+  }
+  core.setFailed(reason);
+});
